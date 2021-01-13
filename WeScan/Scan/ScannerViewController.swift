@@ -211,6 +211,23 @@ public final class ScannerViewController: UIViewController {
         
         CaptureSession.current.removeFocusRectangleIfNeeded(focusRectangle, animated: false)
         
+        let frameShutterButton = shutterButton.frame
+        let frameCancelButton = cancelButton.frame
+        
+        let isTapShutterButton = convertedTouchPoint.x < frameShutterButton.maxX && convertedTouchPoint.x > frameShutterButton.minX && convertedTouchPoint.y < frameShutterButton.maxY && convertedTouchPoint.y > frameShutterButton.minY
+        
+        let isTapCancelButton = convertedTouchPoint.x < frameCancelButton.maxX && convertedTouchPoint.x > frameCancelButton.minX && convertedTouchPoint.y < frameCancelButton.maxY && convertedTouchPoint.y > frameCancelButton.minY
+        
+        if isTapShutterButton || isTapCancelButton {
+            if isTapShutterButton {
+                captureImage(UIButton())
+            }
+            if isTapCancelButton {
+                cancelImageScannerController()
+            }
+            return
+        }
+        
         focusRectangle = FocusRectangleView(touchPoint: touchPoint)
         view.addSubview(focusRectangle)
         
